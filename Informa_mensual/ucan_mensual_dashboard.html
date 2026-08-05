@@ -1,0 +1,662 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dashboard UCAN — Informes Mensuales 2026</title>
+
+  <style>
+    :root {
+      --green: #007B5F;
+      --darkgreen: #003c31;
+      --yellow: #FED141;
+      --gold: #85714D;
+      --ink: #1f2937;
+      --muted: #64748b;
+      --bg: #f4f7f6;
+      --card: #ffffff;
+      --line: #dbe4e1;
+      --soft: #e7f3ef;
+      --shadow: 0 18px 45px rgba(15, 23, 42, .10);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(254,209,65,.30), transparent 35%),
+        radial-gradient(circle at top right, rgba(0,123,95,.20), transparent 35%),
+        var(--bg);
+      color: var(--ink);
+    }
+
+    header {
+      background: linear-gradient(135deg, var(--green), var(--darkgreen));
+      color: white;
+      padding: 34px 28px 32px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    header::after {
+      content: "";
+      position: absolute;
+      width: 440px;
+      height: 440px;
+      border-radius: 50%;
+      background: rgba(254, 209, 65, .20);
+      right: -160px;
+      top: -210px;
+    }
+
+    .header-inner {
+      max-width: 1180px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      background: rgba(254,209,65,.18);
+      border: 1px solid rgba(254,209,65,.55);
+      color: var(--yellow);
+      padding: 7px 12px;
+      border-radius: 999px;
+      font-weight: 700;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      font-size: 12px;
+    }
+
+    h1 {
+      margin: 18px 0 8px;
+      font-size: clamp(30px, 5vw, 56px);
+      line-height: 1.02;
+    }
+
+    .subtitle {
+      max-width: 900px;
+      color: #e5f4ef;
+      font-size: 18px;
+      line-height: 1.55;
+    }
+
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .pill {
+      background: rgba(255,255,255,.12);
+      border: 1px solid rgba(255,255,255,.22);
+      padding: 9px 12px;
+      border-radius: 999px;
+      font-size: 13px;
+    }
+
+    main {
+      max-width: 1180px;
+      margin: -24px auto 60px;
+      padding: 0 18px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 16px;
+    }
+
+    .kpi {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 20px;
+      box-shadow: var(--shadow);
+      min-height: 150px;
+    }
+
+    .kpi-value {
+      font-size: 34px;
+      font-weight: 800;
+      color: var(--green);
+      letter-spacing: -.02em;
+    }
+
+    .kpi-title {
+      font-weight: 800;
+      margin-top: 8px;
+      line-height: 1.25;
+    }
+
+    .kpi-note {
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.4;
+    }
+
+    .section {
+      margin-top: 22px;
+      background: rgba(255,255,255,.88);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      padding: 24px;
+      box-shadow: var(--shadow);
+    }
+
+    .section h2 {
+      margin: 0 0 6px;
+      font-size: 25px;
+      color: #0f3f35;
+    }
+
+    .section p.lead {
+      margin: 0 0 20px;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 22px;
+      align-items: start;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: 16px;
+      background: white;
+      border: 1px solid var(--line);
+    }
+
+    th {
+      text-align: left;
+      background: var(--green);
+      color: white;
+      padding: 12px 14px;
+      font-size: 13px;
+    }
+
+    td {
+      padding: 12px 14px;
+      border-top: 1px solid var(--line);
+      font-size: 14px;
+      vertical-align: top;
+    }
+
+    tr:nth-child(even) td { background: #f8fbfa; }
+
+    .num {
+      text-align: right;
+      font-weight: 800;
+      color: #123c34;
+    }
+
+    .badge {
+      display: inline-block;
+      background: var(--soft);
+      color: #16483e;
+      border: 1px solid #cfe2dc;
+      padding: 5px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .chart {
+      width: 100%;
+      height: auto;
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 12px;
+    }
+
+    .svg-label {
+      font-size: 13px;
+      fill: #334155;
+      font-weight: 700;
+    }
+
+    .svg-value {
+      font-size: 13px;
+      fill: #0f3f35;
+      font-weight: 800;
+    }
+
+    .bar-bg { fill: #e8f0ed; }
+    .bar-fill { fill: #007B5F; }
+
+    .tool-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .tool-card {
+      display: flex;
+      gap: 15px;
+      text-decoration: none;
+      color: var(--ink);
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 18px;
+      transition: transform .15s ease, box-shadow .15s ease;
+      min-height: 175px;
+    }
+
+    .tool-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 16px 34px rgba(0,123,95,.15);
+    }
+
+    .tool-icon {
+      flex: 0 0 auto;
+      background: var(--yellow);
+      color: #1b1b1b;
+      width: 36px;
+      height: 36px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      font-weight: 900;
+    }
+
+    .tool-card h3 {
+      margin: 0 0 8px;
+      color: var(--green);
+      font-size: 18px;
+    }
+
+    .tool-card p {
+      margin: 0 0 12px;
+      color: var(--muted);
+      line-height: 1.45;
+      font-size: 14px;
+    }
+
+    .tool-card span {
+      color: var(--gold);
+      font-size: 12px;
+      word-break: break-all;
+      font-weight: 700;
+    }
+
+    .recommendations {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 12px;
+    }
+
+    .rec {
+      background: var(--soft);
+      border: 1px solid #cfe2dc;
+      border-radius: 18px;
+      padding: 14px;
+      color: #16483e;
+      font-weight: 800;
+      font-size: 13px;
+      line-height: 1.35;
+    }
+
+    footer {
+      max-width: 1180px;
+      margin: 0 auto 36px;
+      padding: 0 18px;
+      color: var(--muted);
+      font-size: 12px;
+      text-align: center;
+    }
+
+    @media (max-width: 980px) {
+      .grid { grid-template-columns: repeat(2, 1fr); }
+      .two-col { grid-template-columns: 1fr; }
+      .tool-grid { grid-template-columns: 1fr; }
+      .recommendations { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 560px) {
+      header { padding: 28px 18px; }
+      .grid { grid-template-columns: 1fr; }
+      .recommendations { grid-template-columns: 1fr; }
+      td, th { font-size: 12px; padding: 10px; }
+    }
+
+    @media print {
+      body { background: white; }
+      header {
+        background: #007B5F !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+      main { margin-top: 20px; }
+      .section, .kpi {
+        box-shadow: none;
+        break-inside: avoid;
+      }
+      .tool-card { break-inside: avoid; }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="header-inner">
+    <span class="eyebrow">UCAN / PPOHA · Recinto de San Germán</span>
+    <h1>Dashboard de Informes Mensuales 2026</h1>
+    <p class="subtitle">
+      Dashboard consolidado de actividades mensuales del proyecto UCAN,
+      incluyendo desarrollo curricular, talleres, evaluación de cursos,
+      recursos digitales, inteligencia artificial, realidad virtual y apoyo a la facultad.
+    </p>
+    <div class="meta">
+      <span class="pill">Preparado por: Dr. Eduardo García Rodríguez</span>
+      <span class="pill">Diseñador Curricular</span>
+      <span class="pill">Periodo revisado: enero–julio 2026</span>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <section class="grid" aria-label="Indicadores principales">
+    <div class="kpi">
+      <div class="kpi-value">7</div>
+      <div class="kpi-title">Meses documentados</div>
+      <div class="kpi-note">Enero a julio 2026</div>
+    </div>
+
+    <div class="kpi">
+      <div class="kpi-value">30+</div>
+      <div class="kpi-title">Reuniones / orientaciones</div>
+      <div class="kpi-note">Facultad, evaluadores y coordinación UCAN</div>
+    </div>
+
+    <div class="kpi">
+      <div class="kpi-value">8+</div>
+      <div class="kpi-title">Talleres y capacitaciones</div>
+      <div class="kpi-note">Blackboard, APA7, objetivos y plataformas</div>
+    </div>
+
+    <div class="kpi">
+      <div class="kpi-value">25+</div>
+      <div class="kpi-title">Artes y promociones</div>
+      <div class="kpi-note">Eventos, talleres, UCAN y desarrollo profesional</div>
+    </div>
+
+    <div class="kpi">
+      <div class="kpi-value">10+</div>
+      <div class="kpi-title">Guías / plantillas</div>
+      <div class="kpi-note">Blackboard Ultra, bancos, exámenes y módulos</div>
+    </div>
+
+    <div class="kpi">
+      <div class="kpi-value">8+</div>
+      <div class="kpi-title">Cursos / módulos evaluados</div>
+      <div class="kpi-note">PSYC, MUED, ENTR y otros cursos graduados</div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>Avance mensual del proyecto</h2>
+    <p class="lead">
+      Resumen de los enfoques principales y entregables destacados por mes.
+    </p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Mes</th>
+          <th>Enfoque principal</th>
+          <th>Entregables destacados</th>
+          <th>Estado</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Enero</strong></td>
+          <td>Eventos, UCAN, Blackboard e instrumentos</td>
+          <td>Onboarding Mixer, Student Mixer, Instrumento Integrado de Evaluación, bumpers, brochure UCAN y taller Blackboard Ultra</td>
+          <td><span class="badge">Completado</span></td>
+        </tr>
+        <tr>
+          <td><strong>Febrero</strong></td>
+          <td>Talleres, repositorio y promoción</td>
+          <td>Repositorio CETL, taller Blackboard Ultra, manual de objetivos, Genially, promociones e inicio de video IA</td>
+          <td><span class="badge">Completado</span></td>
+        </tr>
+        <tr>
+          <td><strong>Marzo</strong></td>
+          <td>IA, Blackboard y desarrollo curricular</td>
+          <td>Videos IA, taller Objetivos y Metodologías, página de conversión de exámenes e iFrame CETL</td>
+          <td><span class="badge">Completado</span></td>
+        </tr>
+        <tr>
+          <td><strong>Abril</strong></td>
+          <td>Módulos instruccionales y cursos master</td>
+          <td>Módulo IA en Educación, YouTube UCAN, sección Instructional Design, evaluaciones PSYC/MUED y taller APA7</td>
+          <td><span class="badge">Completado</span></td>
+        </tr>
+        <tr>
+          <td><strong>Mayo</strong></td>
+          <td>Guías Blackboard y realidad aumentada</td>
+          <td>Guía de Generador de Exámenes, Guía de Bancos de Preguntas, página de realidad aumentada, apoyo APA7 y orientación a facultad</td>
+          <td><span class="badge">Completado</span></td>
+        </tr>
+        <tr>
+          <td><strong>Junio</strong></td>
+          <td>Realidad Virtual y evaluación curricular</td>
+          <td>Meta Quest Pro, evaluación PSYC 5050 y PSYC 7050, Applications, orientaciones y Reporte Anual UCAN</td>
+          <td><span class="badge">Completado</span></td>
+        </tr>
+        <tr>
+          <td><strong>Julio</strong></td>
+          <td>UCAN Reality Lab y apoyo académico</td>
+          <td>UCAN Academic, UCAN Reality Lab v6.0, taller APA7 McNair, formulario Mesa Redonda IA y promociones</td>
+          <td><span class="badge">Completado</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="section">
+    <h2>Componentes estratégicos</h2>
+    <p class="lead">
+      Nivel de actividad estimado por área de trabajo según los informes mensuales.
+    </p>
+
+    <div class="two-col">
+      <div>
+        <svg class="chart" viewBox="0 0 900 370" role="img" aria-label="Componentes estratégicos">
+          <text x="10" y="42" class="svg-label">Desarrollo curricular</text>
+          <rect x="300" y="24" width="540" height="26" rx="13" class="bar-bg"></rect>
+          <rect x="300" y="24" width="520" height="26" rx="13" class="bar-fill"></rect>
+          <text x="830" y="43" class="svg-value">Alto</text>
+
+          <text x="10" y="90" class="svg-label">Blackboard Ultra</text>
+          <rect x="300" y="72" width="540" height="26" rx="13" class="bar-bg"></rect>
+          <rect x="300" y="72" width="500" height="26" rx="13" class="bar-fill"></rect>
+          <text x="810" y="91" class="svg-value">Alto</text>
+
+          <text x="10" y="138" class="svg-label">Capacitación y talleres</text>
+          <rect x="300" y="120" width="540" height="26" rx="13" class="bar-bg"></rect>
+          <rect x="300" y="120" width="470" height="26" rx="13" class="bar-fill"></rect>
+          <text x="780" y="139" class="svg-value">Alto</text>
+
+          <text x="10" y="186" class="svg-label">Inteligencia Artificial</text>
+          <rect x="300" y="168" width="540" height="26" rx="13" class="bar-bg"></rect>
+          <rect x="300" y="168" width="455" height="26" rx="13" class="bar-fill"></rect>
+          <text x="765" y="187" class="svg-value">Alto</text>
+
+          <text x="10" y="234" class="svg-label">Promoción y divulgación</text>
+          <rect x="300" y="216" width="540" height="26" rx="13" class="bar-bg"></rect>
+          <rect x="300" y="216" width="490" height="26" rx="13" class="bar-fill"></rect>
+          <text x="800" y="235" class="svg-value">Alto</text>
+
+          <text x="10" y="282" class="svg-label">Innovación tecnológica</text>
+          <rect x="300" y="264" width="540" height="26" rx="13" class="bar-bg"></rect>
+          <rect x="300" y="264" width="510" height="26" rx="13" class="bar-fill"></rect>
+          <text x="820" y="283" class="svg-value">Alto</text>
+
+          <text x="10" y="330" class="svg-label">Evaluación y documentación</text>
+          <rect x="300" y="312" width="540" height="26" rx="13" class="bar-bg"></rect>
+          <rect x="300" y="312" width="460" height="26" rx="13" class="bar-fill"></rect>
+          <text x="770" y="331" class="svg-value">Alto</text>
+        </svg>
+      </div>
+
+      <div>
+        <table>
+          <thead>
+            <tr>
+              <th>Componente</th>
+              <th>Evidencia principal</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Desarrollo curricular</td>
+              <td>Reuniones, orientaciones, Applications y revisión de cursos</td>
+            </tr>
+            <tr>
+              <td>Blackboard Ultra</td>
+              <td>Guías, bancos de preguntas, generador de exámenes, módulos y plantillas</td>
+            </tr>
+            <tr>
+              <td>Capacitación</td>
+              <td>Talleres de Blackboard Ultra, APA7, objetivos y metodologías</td>
+            </tr>
+            <tr>
+              <td>Innovación tecnológica</td>
+              <td>IA, Realidad Virtual, Realidad Aumentada, UCAN Reality Lab y UCAN Academic</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>Herramientas y recursos digitales destacados</h2>
+    <p class="lead">
+      Recursos tecnológicos trabajados o divulgados durante el periodo consolidado.
+    </p>
+
+    <div class="tool-grid">
+      <a class="tool-card" href="https://ucan-reality-lab-web.onrender.com/" target="_blank" rel="noopener">
+        <div class="tool-icon">↗</div>
+        <div>
+          <h3>UCAN Reality Lab v6.0</h3>
+          <p>Aplicación relacionada con experiencias de realidad virtual y apoyo académico.</p>
+          <span>https://ucan-reality-lab-web.onrender.com/</span>
+        </div>
+      </a>
+
+      <a class="tool-card" href="https://ucan-academic-mall.onrender.com/" target="_blank" rel="noopener">
+        <div class="tool-icon">↗</div>
+        <div>
+          <h3>UCAN Academic</h3>
+          <p>Aplicación de Realidad Virtual trabajada durante junio y julio 2026.</p>
+          <span>https://ucan-academic-mall.onrender.com/</span>
+        </div>
+      </a>
+
+      <div class="tool-card">
+        <div class="tool-icon">AI</div>
+        <div>
+          <h3>Recursos de IA en Blackboard</h3>
+          <p>Videos y materiales sobre IA en Blackboard, exámenes, bancos de preguntas y foros.</p>
+          <span>Blackboard Ultra · IA educativa · Evaluación</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>Logros principales acumulados</h2>
+    <p class="lead">
+      Resultados consolidados del trabajo realizado entre enero y julio 2026.
+    </p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Área</th>
+          <th>Logros destacados</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>UCAN / CETL</td>
+          <td>Fortalecimiento del Center for Excellence in Teaching and Learning, sección Instructional Design, iFrame y canal YouTube UCAN.</td>
+        </tr>
+        <tr>
+          <td>Blackboard Ultra</td>
+          <td>Desarrollo de guías para exámenes, bancos de preguntas, módulos instruccionales y cursos master.</td>
+        </tr>
+        <tr>
+          <td>IA educativa</td>
+          <td>Producción de videos sobre IA aplicada a Blackboard y coordinación de Mesa Redonda sobre IA en Educación Superior.</td>
+        </tr>
+        <tr>
+          <td>Desarrollo curricular</td>
+          <td>Acompañamiento a facultad, orientaciones, evaluación de módulos y envío de Applications.</td>
+        </tr>
+        <tr>
+          <td>Innovación digital</td>
+          <td>Avance en Realidad Virtual, Realidad Aumentada, UCAN Reality Lab v6.0 y UCAN Academic.</td>
+        </tr>
+        <tr>
+          <td>Capacitación</td>
+          <td>Talleres ofrecidos y documentados para facultad, estudiantes graduados y Programa Ronald E. McNair.</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="section">
+    <h2>Prioridades recomendadas</h2>
+    <p class="lead">
+      Áreas sugeridas para seguimiento en agosto 2026.
+    </p>
+
+    <div class="recommendations">
+      <div class="rec">Continuar pruebas de UCAN Academic y UCAN Reality Lab</div>
+      <div class="rec">Dar seguimiento a cursos con Applications enviados</div>
+      <div class="rec">Confirmar logística de Semana de Desarrollo Profesional</div>
+      <div class="rec">Coordinar Mesa Redonda de IA en Educación Superior</div>
+      <div class="rec">Finalizar revisión del Reporte Anual UCAN</div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>Conclusión ejecutiva</h2>
+    <p class="lead">
+      Durante el periodo de enero a julio de 2026, el proyecto UCAN – Title V PPOHA
+      evidenció un avance sostenido en desarrollo curricular, capacitación, innovación
+      tecnológica y producción de recursos digitales. Se fortalecieron áreas clave como
+      Blackboard Ultra, Inteligencia Artificial, Realidad Virtual, Realidad Aumentada,
+      evaluación curricular y acompañamiento a facultad.
+    </p>
+  </section>
+
+</main>
+
+<footer>
+  Dashboard consolidado a partir de los informes mensuales UCAN 2026.
+</footer>
+
+</body>
+</html>
