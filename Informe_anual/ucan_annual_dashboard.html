@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>UCAN Annual Internal Report Dashboard</title>
+  <style>
+    :root {
+      --green: #007B5F; --yellow: #FED141; --gold: #85714D;
+      --ink: #1f2937; --muted: #64748b; --bg: #f4f7f6;
+      --card: #ffffff; --line: #dbe4e1; --soft: #e7f3ef;
+      --shadow: 0 18px 45px rgba(15, 23, 42, .10);
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: Arial, Helvetica, sans-serif; background: radial-gradient(circle at top left, rgba(254,209,65,.30), transparent 35%), radial-gradient(circle at top right, rgba(0,123,95,.20), transparent 35%), var(--bg); color: var(--ink); }
+    header { background: linear-gradient(135deg, var(--green), #003c31); color: white; padding: 34px 28px 32px; position: relative; overflow: hidden; }
+    header::after { content: ""; position: absolute; width: 440px; height: 440px; border-radius: 50%; background: rgba(254, 209, 65, .20); right: -160px; top: -210px; }
+    .header-inner { max-width: 1180px; margin: 0 auto; position: relative; z-index: 1; }
+    .eyebrow { display: inline-block; background: rgba(254,209,65,.18); border: 1px solid rgba(254,209,65,.55); color: var(--yellow); padding: 7px 12px; border-radius: 999px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; font-size: 12px; }
+    h1 { margin: 18px 0 8px; font-size: clamp(30px, 5vw, 56px); line-height: 1.02; }
+    .subtitle { max-width: 850px; color: #e5f4ef; font-size: 18px; line-height: 1.55; }
+    .meta { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
+    .pill { background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.22); padding: 9px 12px; border-radius: 999px; font-size: 13px; }
+    main { max-width: 1180px; margin: -24px auto 60px; padding: 0 18px; position: relative; z-index: 2; }
+    .grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 16px; }
+    .kpi { background: var(--card); border: 1px solid var(--line); border-radius: 20px; padding: 20px; box-shadow: var(--shadow); min-height: 150px; }
+    .kpi-value { font-size: 34px; font-weight: 800; color: var(--green); letter-spacing: -.02em; }
+    .kpi-title { font-weight: 800; margin-top: 8px; line-height: 1.25; }
+    .kpi-note { margin-top: 8px; color: var(--muted); font-size: 13px; line-height: 1.4; }
+    .section { margin-top: 22px; background: rgba(255,255,255,.88); border: 1px solid var(--line); border-radius: 24px; padding: 24px; box-shadow: var(--shadow); }
+    .section h2 { margin: 0 0 6px; font-size: 25px; color: #0f3f35; }
+    .section p.lead { margin: 0 0 20px; color: var(--muted); line-height: 1.55; }
+    .two-col { display: grid; grid-template-columns: 1.1fr .9fr; gap: 22px; align-items: start; }
+    table { width: 100%; border-collapse: collapse; overflow: hidden; border-radius: 16px; background: white; border: 1px solid var(--line); }
+    th { text-align: left; background: var(--green); color: white; padding: 12px 14px; font-size: 13px; }
+    td { padding: 12px 14px; border-top: 1px solid var(--line); font-size: 14px; vertical-align: top; }
+    tr:nth-child(even) td { background: #f8fbfa; }
+    .num { text-align: right; font-weight: 800; color: #123c34; }
+    .chart { width: 100%; height: auto; background: white; border: 1px solid var(--line); border-radius: 18px; padding: 12px; }
+    .svg-label { font-size: 13px; fill: #334155; font-weight: 700; }
+    .svg-value { font-size: 13px; fill: #0f3f35; font-weight: 800; }
+    .bar-bg { fill: #e8f0ed; } .bar-fill { fill: #007B5F; }
+    .tool-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .tool-card { display: flex; gap: 15px; text-decoration: none; color: var(--ink); background: white; border: 1px solid var(--line); border-radius: 20px; padding: 18px; transition: transform .15s ease, box-shadow .15s ease; min-height: 190px; }
+    .tool-card:hover { transform: translateY(-3px); box-shadow: 0 16px 34px rgba(0,123,95,.15); }
+    .tool-icon { flex: 0 0 auto; background: var(--yellow); color: #1b1b1b; width: 36px; height: 36px; border-radius: 12px; display: grid; place-items: center; font-weight: 900; }
+    .tool-card h3 { margin: 0 0 8px; color: var(--green); font-size: 18px; }
+    .tool-card p { margin: 0 0 12px; color: var(--muted); line-height: 1.45; font-size: 14px; }
+    .tool-card span { color: var(--gold); font-size: 12px; word-break: break-all; font-weight: 700; }
+    .donut-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 14px; }
+    .donut-card { background: white; border: 1px solid var(--line); border-radius: 18px; padding: 16px; text-align: center; }
+    .donut { width: 120px; height: 120px; transform: rotate(-90deg); }
+    .donut-bg { fill: none; stroke: #e8f0ed; stroke-width: 13; }
+    .donut-fill { fill: none; stroke: #007B5F; stroke-width: 13; stroke-linecap: round; }
+    .donut-text { fill: #0f3f35; font-weight: 900; font-size: 19px; transform: rotate(90deg); transform-origin: 60px 60px; }
+    .donut-label { font-weight: 800; color: #334155; font-size: 13px; line-height: 1.35; }
+    .recommendations { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; }
+    .rec { background: var(--soft); border: 1px solid #cfe2dc; border-radius: 18px; padding: 14px; color: #16483e; font-weight: 800; font-size: 13px; line-height: 1.35; }
+    footer { max-width: 1180px; margin: 0 auto 36px; padding: 0 18px; color: var(--muted); font-size: 12px; text-align: center; }
+    @media (max-width: 980px) { .grid { grid-template-columns: repeat(2, 1fr); } .two-col { grid-template-columns: 1fr; } .tool-grid { grid-template-columns: 1fr; } .donut-row { grid-template-columns: repeat(2, 1fr); } .recommendations { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 560px) { header { padding: 28px 18px; } .grid { grid-template-columns: 1fr; } .donut-row { grid-template-columns: 1fr; } .recommendations { grid-template-columns: 1fr; } td, th { font-size: 12px; padding: 10px; } }
+    @media print { body { background: white; } header { background: #007B5F !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; } main { margin-top: 20px; } .section, .kpi { box-shadow: none; break-inside: avoid; } .tool-card { break-inside: avoid; } }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-inner">
+      <span class="eyebrow">UCAN / PPOHA · San Germán Campus</span>
+      <h1>Annual Internal Report Dashboard</h1>
+      <p class="subtitle">Consolidated dashboard of faculty development activities, curriculum development support, documented courses, evaluation findings and digital tools created to support online and hybrid education.</p>
+      <div class="meta">
+        <span class="pill">Prepared by: Dr. Eduardo A. García Rodríguez</span>
+        <span class="pill">Internal planning report</span>
+        <span class="pill">Period reviewed: February–June 2026</span>
+      </div>
+    </div>
+  </header>
+  <main>
+    <section class="grid" aria-label="Key performance indicators"><div class="kpi"><div class="kpi-value">5</div><div class="kpi-title">Documented Activities / Workshops</div><div class="kpi-note">Faculty development and curriculum support</div></div>
+<div class="kpi"><div class="kpi-value">103</div><div class="kpi-title">Estimated Participation</div><div class="kpi-note">Total documented attendance records</div></div>
+<div class="kpi"><div class="kpi-value">72</div><div class="kpi-title">Evaluations Received</div><div class="kpi-note">Workshop + integrated evaluation responses</div></div>
+<div class="kpi"><div class="kpi-value">9.42/10</div><div class="kpi-title">Weighted Satisfaction</div><div class="kpi-note">Overall weighted satisfaction score</div></div>
+<div class="kpi"><div class="kpi-value">21</div><div class="kpi-title">Courses Documented</div><div class="kpi-note">Courses with evidence of development/certification</div></div>
+<div class="kpi"><div class="kpi-value">3</div><div class="kpi-title">Digital Tools Created</div><div class="kpi-note">Blackboard, QTI and AR tools</div></div></section>
+    <section class="section">
+      <h2>Faculty Development and Curriculum Support</h2>
+      <p class="lead">Five documented activities or support records were identified, totaling 103 estimated participation records. Satisfaction scores remained high across the evaluated workshops.</p>
+      <div class="two-col"><div><svg class="chart" viewBox="0 0 900 274" role="img" aria-label="Bar chart">
+<text x="10" y="42" class="svg-label">Online Course Design in Blackboard Ultra</text>
+<rect x="325" y="24" width="540" height="26" rx="13" class="bar-bg"></rect>
+<rect x="325" y="24" width="361" height="26" rx="13" class="bar-fill"></rect>
+<text x="691" y="43" class="svg-value">23</text>
+<text x="10" y="90" class="svg-label">Learning Objectives and Methodologies</text>
+<rect x="325" y="72" width="540" height="26" rx="13" class="bar-bg"></rect>
+<rect x="325" y="72" width="188" height="26" rx="13" class="bar-fill"></rect>
+<text x="518" y="91" class="svg-value">12</text>
+<text x="10" y="138" class="svg-label">From Student to Faculty: Create and Man...</text>
+<rect x="325" y="120" width="540" height="26" rx="13" class="bar-bg"></rect>
+<rect x="325" y="120" width="487" height="26" rx="13" class="bar-fill"></rect>
+<text x="817" y="139" class="svg-value">31</text>
+<text x="10" y="186" class="svg-label">From Student to Faculty: Create and Man...</text>
+<rect x="325" y="168" width="540" height="26" rx="13" class="bar-bg"></rect>
+<rect x="325" y="168" width="330" height="26" rx="13" class="bar-fill"></rect>
+<text x="660" y="187" class="svg-value">21</text>
+<text x="10" y="234" class="svg-label">Curriculum Development — Individual Sup...</text>
+<rect x="325" y="216" width="540" height="26" rx="13" class="bar-bg"></rect>
+<rect x="325" y="216" width="251" height="26" rx="13" class="bar-fill"></rect>
+<text x="581" y="235" class="svg-value">16</text>
+</svg></div><div><table><thead><tr><th>Date</th><th>Activity</th><th>Mode</th><th>Participants</th><th>Score</th></tr></thead><tbody>
+<tr>
+  <td>Feb. 11, 2026</td>
+  <td>Online Course Design in Blackboard Ultra</td>
+  <td>Hybrid</td>
+  <td class="num">23</td>
+  <td class="num">9.38/10</td>
+</tr>
+
+<tr>
+  <td>Mar. 4, 2026</td>
+  <td>Learning Objectives and Methodologies</td>
+  <td>Hybrid</td>
+  <td class="num">12</td>
+  <td class="num">9.14/10</td>
+</tr>
+
+<tr>
+  <td>Mar. 18, 2026</td>
+  <td>From Student to Faculty: Create and Manage Classes with Digital Platforms</td>
+  <td>Hybrid</td>
+  <td class="num">31</td>
+  <td class="num">9.45/10</td>
+</tr>
+
+<tr>
+  <td>Apr. 9, 2026</td>
+  <td>From Student to Faculty: Create and Manage Classes with Digital Platforms</td>
+  <td>Face-to-face</td>
+  <td class="num">21</td>
+  <td class="num">9.50/10</td>
+</tr>
+
+<tr>
+  <td>Feb. 25–Jun. 23, 2026</td>
+  <td>Curriculum Development — Individual Support and Course Follow-up</td>
+  <td>Face-to-face</td>
+  <td class="num">16</td>
+  <td class="num">N/A</td>
+</tr></tbody></table></div></div>
+    </section>
+    <section class="section">
+      <h2>Courses with Evidence of Development or Certification</h2>
+      <p class="lead">A total of 21 courses were identified across four academic areas. Psychology/Social Sciences represented the largest documented area.</p>
+      <div class="two-col"><div><svg class="chart" viewBox="0 0 900 226" role="img" aria-label="Bar chart">
+<text x="10" y="42" class="svg-label">Psychology / Social Sciences</text>
+<rect x="325" y="24" width="540" height="26" rx="13" class="bar-bg"></rect>
+<rect x="325" y="24" width="550" height="26" rx="13" class="bar-fill"></rect>
+<text x="830" y="43" class="svg-value">12</text>
+<text x="10" y="90" class="svg-label">Music / Music Education</text>
+<rect x="325" y="72" width="540" height="26" rx="13" class="bar-bg"></rect>
+<rect x="325" y="72" width="229" height="26" rx="13" class="bar-fill"></rect>
+<text x="559" y="91" class="svg-value">5</text>
+<text x="10" y="138" class="svg-label">Creativity, Innovation and Entrepreneur...</text>
+<rect x="325" y="120" width="540" height="26" rx="13" class="bar-bg"></rect>
+<rect x="325" y="120" width="137" height="26" rx="13" class="bar-fill"></rect>
+<text x="467" y="139" class="svg-value">3</text>
+<text x="10" y="186" class="svg-label">Education</text>
+<rect x="325" y="168" width="540" height="26" rx="13" class="bar-bg"></rect>
+<rect x="325" y="168" width="45" height="26" rx="13" class="bar-fill"></rect>
+<text x="375" y="187" class="svg-value">1</text>
+</svg></div><div><table><thead><tr><th>Academic Area</th><th>Courses</th></tr></thead><tbody><tr><td>Psychology / Social Sciences</td><td class='num'>12</td></tr>
+<tr><td>Music / Music Education</td><td class='num'>5</td></tr>
+<tr><td>Creativity, Innovation and Entrepreneurship</td><td class='num'>3</td></tr>
+<tr><td>Education</td><td class='num'>1</td></tr></tbody></table></div></div>
+    </section>
+    <section class="section">
+      <h2>Integrated Evaluation Results</h2>
+      <p class="lead">Two evaluation instruments were integrated: the Curriculum Development Orientation evaluation and the TAM + Learning Methodologies instrument.</p>
+      <div class="donut-row">
+    <div class="donut-card">
+      <svg viewBox="0 0 120 120" class="donut" aria-label="Very satisfied with content 100%">
+        <circle cx="60" cy="60" r="46" class="donut-bg"></circle>
+        <circle cx="60" cy="60" r="46" class="donut-fill" stroke-dasharray="289.03 0.00"></circle>
+        <text x="60" y="64" text-anchor="middle" class="donut-text">100%</text>
+      </svg>
+      <div class="donut-label">Very satisfied with content</div>
+    </div>
+    
+
+    <div class="donut-card">
+      <svg viewBox="0 0 120 120" class="donut" aria-label="Positive future participation 75%">
+        <circle cx="60" cy="60" r="46" class="donut-bg"></circle>
+        <circle cx="60" cy="60" r="46" class="donut-fill" stroke-dasharray="216.77 72.26"></circle>
+        <text x="60" y="64" text-anchor="middle" class="donut-text">75%</text>
+      </svg>
+      <div class="donut-label">Positive future participation</div>
+    </div>
+    
+
+    <div class="donut-card">
+      <svg viewBox="0 0 120 120" class="donut" aria-label="TAM perceived usefulness 94.4%">
+        <circle cx="60" cy="60" r="46" class="donut-bg"></circle>
+        <circle cx="60" cy="60" r="46" class="donut-fill" stroke-dasharray="272.84 16.19"></circle>
+        <text x="60" y="64" text-anchor="middle" class="donut-text">94%</text>
+      </svg>
+      <div class="donut-label">TAM perceived usefulness</div>
+    </div>
+    
+
+    <div class="donut-card">
+      <svg viewBox="0 0 120 120" class="donut" aria-label="Attitude and intention to use 100%">
+        <circle cx="60" cy="60" r="46" class="donut-bg"></circle>
+        <circle cx="60" cy="60" r="46" class="donut-fill" stroke-dasharray="289.03 0.00"></circle>
+        <text x="60" y="64" text-anchor="middle" class="donut-text">100%</text>
+      </svg>
+      <div class="donut-label">Attitude and intention to use</div>
+    </div>
+    </div>
+      <div style="margin-top:18px;"><svg class="chart" viewBox="0 0 900 322" role="img" aria-label="Bar chart">
+<text x="10" y="42" class="svg-label">Perceived Ease of Use</text>
+<rect x="325" y="24" width="540" height="26" rx="13" class="bar-bg"></rect>
+<rect x="325" y="24" width="421" height="26" rx="13" class="bar-fill"></rect>
+<text x="751" y="43" class="svg-value">3.83/5</text>
+<text x="10" y="90" class="svg-label">Perceived Usefulness</text>
+<rect x="325" y="72" width="540" height="26" rx="13" class="bar-bg"></rect>
+<rect x="325" y="72" width="507" height="26" rx="13" class="bar-fill"></rect>
+<text x="830" y="91" class="svg-value">4.61/5</text>
+<text x="10" y="138" class="svg-label">Attitude, Value and Intention to Use</text>
+<rect x="325" y="120" width="540" height="26" rx="13" class="bar-bg"></rect>
+<rect x="325" y="120" width="531" height="26" rx="13" class="bar-fill"></rect>
+<text x="830" y="139" class="svg-value">4.83/5</text>
+<text x="10" y="186" class="svg-label">Facilitating Conditions</text>
+<rect x="325" y="168" width="540" height="26" rx="13" class="bar-bg"></rect>
+<rect x="325" y="168" width="467" height="26" rx="13" class="bar-fill"></rect>
+<text x="797" y="187" class="svg-value">4.25/5</text>
+<text x="10" y="234" class="svg-label">Active Methodologies</text>
+<rect x="325" y="216" width="540" height="26" rx="13" class="bar-bg"></rect>
+<rect x="325" y="216" width="403" height="26" rx="13" class="bar-fill"></rect>
+<text x="733" y="235" class="svg-value">3.67/5</text>
+<text x="10" y="282" class="svg-label">Technology, Collaboration and Ethics</text>
+<rect x="325" y="264" width="540" height="26" rx="13" class="bar-bg"></rect>
+<rect x="325" y="264" width="495" height="26" rx="13" class="bar-fill"></rect>
+<text x="825" y="283" class="svg-value">4.5/5</text>
+</svg></div>
+      <table style="margin-top:18px;"><thead><tr><th>TAM / Methodology Dimension</th><th>Average</th><th>Positive Responses</th></tr></thead><tbody><tr><td>Perceived Ease of Use</td><td class='num'>3.83/5</td><td class='num'>73.3%</td></tr>
+<tr><td>Perceived Usefulness</td><td class='num'>4.61/5</td><td class='num'>94.4%</td></tr>
+<tr><td>Attitude, Value and Intention to Use</td><td class='num'>4.83/5</td><td class='num'>100.0%</td></tr>
+<tr><td>Facilitating Conditions</td><td class='num'>4.25/5</td><td class='num'>87.5%</td></tr>
+<tr><td>Active Methodologies</td><td class='num'>3.67/5</td><td class='num'>69.0%</td></tr>
+<tr><td>Technology, Collaboration and Ethics</td><td class='num'>4.50/5</td><td class='num'>100.0%</td></tr></tbody></table>
+    </section>
+    <section class="section">
+      <h2>Digital Tools Created</h2>
+      <p class="lead">The report documents three web-based tools created to support Blackboard Ultra, QTI assessment development and augmented reality learning resources.</p>
+      <div class="tool-grid"><a class="tool-card" href="https://eagarcia77.github.io/CTEL-SG/index_generator.html" target="_blank" rel="noopener"><div class="tool-icon">↗</div><div><h3>Blackboard Test Generator</h3><p>Converts faculty-written questions into TXT format compatible with Blackboard Ultra.</p><span>https://eagarcia77.github.io/CTEL-SG/index_generator.html</span></div></a>
+<a class="tool-card" href="https://eagarcia77.github.io/CTEL-SG/QTI21_BlackboardV3.html" target="_blank" rel="noopener"><div class="tool-icon">↗</div><div><h3>QTI 2.1 Studio PRO for Blackboard</h3><p>Supports structured question banks and QTI package preparation for Blackboard.</p><span>https://eagarcia77.github.io/CTEL-SG/QTI21_BlackboardV3.html</span></div></a>
+<a class="tool-card" href="https://eagarcia77.github.io/ar-image-qr-generator/" target="_blank" rel="noopener"><div class="tool-icon">↗</div><div><h3>INTER SG Augmented Reality Generator</h3><p>Creates augmented reality resources and QR-based learning materials.</p><span>https://eagarcia77.github.io/ar-image-qr-generator/</span></div></a></div>
+    </section>
+    <section class="section">
+      <h2>Strategic Recommendations</h2>
+      <p class="lead">The evidence supports continuation and expansion of hands-on faculty development tied to educational technology adoption, instructional design and active learning.</p>
+      <div class="recommendations">
+        <div class="rec">AI workshops for course design, assessment and feedback</div>
+        <div class="rec">Guided labs for Blackboard Ultra and QTI assessment creation</div>
+        <div class="rec">Active learning methodologies and authentic assessment</div>
+        <div class="rec">Accessibility, privacy and responsible technology use</div>
+        <div class="rec">Follow-up support after each faculty development workshop</div>
+      </div>
+    </section>
+  </main>
+  <footer>Source: UCAN Internal Annual Report information consolidated from workshops, attendance evidence, evaluation instruments and digital program documentation. Personal identifiers were not included in this dashboard.</footer>
+</body>
+</html>
