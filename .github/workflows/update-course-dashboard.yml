@@ -1,0 +1,59 @@
+name: Actualizar Dashboard de Cursos
+on:
+  push:
+    paths:
+      - "Informe_Desarrollo_Cursos/**/*.xlsx"
+      - "Informe_Desarrollo_Cursos/generate_dashboard.py"
+      - ".github/workflows/update-course-dashboard.yml"
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: update-course-dashboard
+  cancel-in-progress: true
+jobs:
+  build-dashboard:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descargar repositorio
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Instalar dependencias
+        run: pip install -r Informe_Desarrollo_Cursos/requirements.txt
+      - name: Identificar Excel actualizado
+        id: excel
+        shell: bash
+        run: |
+          set -euo pipefail
+          FILE=""
+          if [[ "${{ github.event_name }}" == "push" ]]; then
+            FILE=$(git diff --name-only "${{ github.event.before }}" "${{ github.sha }}" -- 'Informe_Desarrollo_Cursos/*.xlsx' 'Informe_Desarrollo_Cursos/**/*.xlsx' | tail -n 1 || true)
+          fi
+          if [[ -z "$FILE" ]]; then
+            if [[ -f "Informe_Desarrollo_Cursos/reporte_desarrollo_cursos.xlsx" ]]; then
+              FILE="Informe_Desarrollo_Cursos/reporte_desarrollo_cursos.xlsx"
+            else
+              FILE=$(find Informe_Desarrollo_Cursos -maxdepth 1 -type f -iname '*.xlsx' ! -name '~$*' | sort | tail -n 1)
+            fi
+          fi
+          if [[ -z "$FILE" ]]; then echo "No se encontró ningún archivo Excel." >&2; exit 1; fi
+          echo "file=$FILE" >> "$GITHUB_OUTPUT"
+          echo "Procesando: $FILE"
+      - name: Generar dashboard
+        run: python Informe_Desarrollo_Cursos/generate_dashboard.py --input "${{ steps.excel.outputs.file }}"
+      - name: Publicar dashboard actualizado
+        shell: bash
+        run: |
+          set -euo pipefail
+          if git diff --quiet -- Informe_Desarrollo_Cursos/ucan_course_development_dashboard.html; then echo "El dashboard no cambió."; exit 0; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add Informe_Desarrollo_Cursos/ucan_course_development_dashboard.html
+          git commit -m "Actualizar dashboard de desarrollo de cursos"
+          git push
