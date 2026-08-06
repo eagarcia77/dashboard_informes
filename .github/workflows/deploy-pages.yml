@@ -17,9 +17,6 @@ concurrency:
 
 jobs:
   deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
       - name: Descargar repositorio
@@ -32,8 +29,9 @@ jobs:
         run: |
           touch .nojekyll
           test -f index.html
-          test -f Informe_Desarrollo_Cursos/index.html
           test -f Informe_Desarrollo_Cursos/ucan_course_development_dashboard.html
+          test -f Informe_anual/ucan_annual_dashboard.html
+          test -f Informa_mensual/ucan_mensual_dashboard.html
 
       - name: Cargar sitio como artefacto
         uses: actions/upload-pages-artifact@v3
@@ -41,5 +39,4 @@ jobs:
           path: .
 
       - name: Publicar en GitHub Pages
-        id: deployment
         uses: actions/deploy-pages@v4
