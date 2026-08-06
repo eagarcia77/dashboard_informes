@@ -56,7 +56,7 @@ jobs:
 
           if [[ -z "$FILE" ]]; then
             echo "ERROR: No existe ningún archivo .xlsx dentro de Informe_Desarrollo_Cursos." >&2
-            echo "Suba el Excel a esa carpeta y confirme el commit antes de ejecutar nuevamente." >&2
+            echo "Suba el Excel a esa carpeta y confirme el commit." >&2
             exit 1
           fi
 
@@ -64,20 +64,32 @@ jobs:
           echo "Procesando: $FILE"
 
       - name: Generar dashboard
-        run: python Informe_Desarrollo_Cursos/generate_dashboard.py --input "${{ steps.excel.outputs.file }}"
+        run: |
+          python Informe_Desarrollo_Cursos/generate_dashboard.py --input "${{ steps.excel.outputs.file }}"
+          cp Informe_Desarrollo_Cursos/ucan_course_development_dashboard.html Informe_Desarrollo_Cursos/index.html
+
+      - name: Validar archivos generados
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -s Informe_Desarrollo_Cursos/ucan_course_development_dashboard.html
+          test -s Informe_Desarrollo_Cursos/index.html
+          grep -q "Dashboard de Desarrollo de Cursos" Informe_Desarrollo_Cursos/index.html
 
       - name: Publicar dashboard actualizado
         shell: bash
         run: |
           set -euo pipefail
 
-          if git diff --quiet -- Informe_Desarrollo_Cursos/ucan_course_development_dashboard.html; then
+          if git diff --quiet -- \
+            Informe_Desarrollo_Cursos/ucan_course_development_dashboard.html \
+            Informe_Desarrollo_Cursos/index.html; then
             echo "El dashboard no cambió. El proceso terminó correctamente."
             exit 0
           fi
 
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add Informe_Desarrollo_Cursos/ucan_course_development_dashboard.html
+          git add Informe_Desarrollo_Cursos/ucan_course_development_dashboard.html Informe_Desarrollo_Cursos/index.html
           git commit -m "Actualizar dashboard de desarrollo de cursos"
           git push
