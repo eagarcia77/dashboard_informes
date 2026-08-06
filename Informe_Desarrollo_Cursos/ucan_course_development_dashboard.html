@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>UCAN Dashboard de Desarrollo de Cursos</title>
+<style>
+:root{--green:#007B5F;--yellow:#FED141;--gold:#85714D;--ink:#1f2937;--muted:#64748b;--bg:#f4f7f6;--card:#fff;--line:#dbe4e1;--soft:#e7f3ef;--shadow:0 18px 45px rgba(15,23,42,.10);}
+*{box-sizing:border-box} body{margin:0;font-family:Arial,Helvetica,sans-serif;background:radial-gradient(circle at top left,rgba(254,209,65,.30),transparent 35%),radial-gradient(circle at top right,rgba(0,123,95,.20),transparent 35%),var(--bg);color:var(--ink)}
+header{background:linear-gradient(135deg,var(--green),#003c31);color:#fff;padding:34px 28px 32px;position:relative;overflow:hidden} header::after{content:"";position:absolute;width:440px;height:440px;border-radius:50%;background:rgba(254,209,65,.20);right:-160px;top:-210px}
+.header-inner{max-width:1180px;margin:0 auto;position:relative;z-index:1} .eyebrow{display:inline-block;background:rgba(254,209,65,.18);border:1px solid rgba(254,209,65,.55);color:var(--yellow);padding:7px 12px;border-radius:999px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;font-size:12px}
+h1{margin:18px 0 8px;font-size:clamp(30px,5vw,56px);line-height:1.02} .subtitle{max-width:900px;color:#e5f4ef;font-size:18px;line-height:1.55} .meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px} .pill{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.22);padding:9px 12px;border-radius:999px;font-size:13px}
+main{max-width:1180px;margin:-24px auto 60px;padding:0 18px;position:relative;z-index:2} .grid{display:grid;grid-template-columns:repeat(6,1fr);gap:16px} .kpi{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:20px;box-shadow:var(--shadow);min-height:150px} .kpi-value{font-size:34px;font-weight:800;color:var(--green);letter-spacing:-.02em} .kpi-title{font-weight:800;margin-top:8px;line-height:1.25} .kpi-note{margin-top:8px;color:var(--muted);font-size:13px;line-height:1.4}
+.section{margin-top:22px;background:rgba(255,255,255,.88);border:1px solid var(--line);border-radius:24px;padding:24px;box-shadow:var(--shadow)} .section h2{margin:0 0 6px;font-size:25px;color:#0f3f35} .section p.lead{margin:0 0 20px;color:var(--muted);line-height:1.55} .two-col{display:grid;grid-template-columns:1.1fr .9fr;gap:22px;align-items:start}
+table{width:100%;border-collapse:collapse;overflow:hidden;border-radius:16px;background:#fff;border:1px solid var(--line)} th{text-align:left;background:var(--green);color:#fff;padding:12px 14px;font-size:13px} td{padding:12px 14px;border-top:1px solid var(--line);font-size:14px;vertical-align:top} tr:nth-child(even) td{background:#f8fbfa} .num{text-align:right;font-weight:800;color:#123c34} .chart{width:100%;height:auto;background:#fff;border:1px solid var(--line);border-radius:18px;padding:12px} .svg-label{font-size:13px;fill:#334155;font-weight:700} .svg-value{font-size:13px;fill:#0f3f35;font-weight:800} .bar-bg{fill:#e8f0ed} .bar-fill{fill:#007B5F}
+.donut-row{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:14px} .donut-card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:16px;text-align:center} .donut{width:120px;height:120px;transform:rotate(-90deg)} .donut-bg{fill:none;stroke:#e8f0ed;stroke-width:13} .donut-fill{fill:none;stroke:#007B5F;stroke-width:13;stroke-linecap:round} .donut-text{fill:#0f3f35;font-weight:900;font-size:19px;transform:rotate(90deg);transform-origin:60px 60px} .donut-label{font-weight:800;color:#334155;font-size:13px;line-height:1.35}
+.note{background:#fff8df;border:1px solid #f1d46b;border-radius:16px;padding:14px 16px;color:#604f10;line-height:1.5;font-size:13px;margin-top:18px} footer{max-width:1180px;margin:0 auto 36px;padding:0 18px;color:var(--muted);font-size:12px;text-align:center}
+@media(max-width:980px){.grid{grid-template-columns:repeat(2,1fr)}.two-col{grid-template-columns:1fr}.donut-row{grid-template-columns:repeat(2,1fr)}} @media(max-width:560px){header{padding:28px 18px}.grid{grid-template-columns:1fr}.donut-row{grid-template-columns:1fr}td,th{font-size:12px;padding:10px}} @media print{body{background:#fff}header{background:#007B5F!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}main{margin-top:20px}.section,.kpi{box-shadow:none;break-inside:avoid}}
+</style></head>
+<body><header><div class="header-inner"><span class="eyebrow">UCAN / PPOHA · Recinto de San Germán</span><h1>Dashboard de Desarrollo de Cursos en Línea</h1><p class="subtitle">Resumen ejecutivo del desarrollo, compromiso financiero, estado de trámites y cobertura programática de los cursos apoyados por el Proyecto UCAN.</p><div class="meta"><span class="pill">Proyecto Title V PPOHA #P031M230038</span><span class="pill">Objeto de gasto #6013</span><span class="pill">Datos actualizados: 5 de agosto de 2026</span></div></div></header>
+<main>
+<section class="grid" aria-label="Indicadores principales">
+<div class="kpi"><div class="kpi-value">72</div><div class="kpi-title">Cursos en cartera Year 3</div><div class="kpi-note">Cursos aprobados, en desarrollo o incluidos en planificación</div></div>
+<div class="kpi"><div class="kpi-value">14</div><div class="kpi-title">Áreas / programas</div><div class="kpi-note">Cobertura académica identificada en Year 3</div></div>
+<div class="kpi"><div class="kpi-value">26</div><div class="kpi-title">Recursos identificados</div><div class="kpi-note">Docentes o equipos con nombre registrado</div></div>
+<div class="kpi"><div class="kpi-value">$98,453</div><div class="kpi-title">Cartera financiera Year 3</div><div class="kpi-note">Suma de los 72 cursos listados en la sección activa</div></div>
+<div class="kpi"><div class="kpi-value">$6,096</div><div class="kpi-title">Pagado / certificado Year 3</div><div class="kpi-note">Gasto informado hasta agosto de 2026</div></div>
+<div class="kpi"><div class="kpi-value">12</div><div class="kpi-title">Programas con brechas</div><div class="kpi-note">Programas que requieren cursos o decisiones adicionales</div></div>
+</section>
+
+<section class="section"><h2>Distribución de la cartera por programa académico</h2><p class="lead">Los 72 cursos de Year 3 se distribuyen en 14 áreas o programas. Educación Musical, Emprendimiento, Educación Física y TESOL concentran la mayor cantidad de cursos.</p><div class="two-col"><div><svg class="chart" viewBox="0 0 900 418" role="img" aria-label="Cursos por programa"><text x="10" y="42" class="svg-label">DMA Educación Musical</text>
+<rect x="390" y="24" width="475" height="26" rx="13" class="bar-bg"></rect>
+<rect x="390" y="24" width="475" height="26" rx="13" class="bar-fill"></rect>
+<text x="840" y="43" class="svg-value">19</text>
+<text x="10" y="90" class="svg-label">DBA ENTR - Emprendimiento</text>
+<rect x="390" y="72" width="475" height="26" rx="13" class="bar-bg"></rect>
+<rect x="390" y="72" width="275" height="26" rx="13" class="bar-fill"></rect>
+<text x="675" y="91" class="svg-value">11</text>
+<text x="10" y="138" class="svg-label">Especialidad en Educación Física (MA) Entrenamie…</text>
+<rect x="390" y="120" width="475" height="26" rx="13" class="bar-bg"></rect>
+<rect x="390" y="120" width="225" height="26" rx="13" class="bar-fill"></rect>
+<text x="625" y="139" class="svg-value">9</text>
+<text x="10" y="186" class="svg-label">Inglés: Enseñanza del Inglés como Segundo Idioma…</text>
+<rect x="390" y="168" width="475" height="26" rx="13" class="bar-bg"></rect>
+<rect x="390" y="168" width="200" height="26" rx="13" class="bar-fill"></rect>
+<text x="600" y="187" class="svg-value">8</text>
+<text x="10" y="234" class="svg-label">PsyD en Psicología Clínica y Consejería Psicológ…</text>
+<rect x="390" y="216" width="475" height="26" rx="13" class="bar-bg"></rect>
+<rect x="390" y="216" width="150" height="26" rx="13" class="bar-fill"></rect>
+<text x="550" y="235" class="svg-value">6</text>
+<text x="10" y="282" class="svg-label">MA Psicología</text>
+<rect x="390" y="264" width="475" height="26" rx="13" class="bar-bg"></rect>
+<rect x="390" y="264" width="125" height="26" rx="13" class="bar-fill"></rect>
+<text x="525" y="283" class="svg-value">5</text>
+<text x="10" y="330" class="svg-label">MA Psicología Especialidad en Consejería Psicoló…</text>
+<rect x="390" y="312" width="475" height="26" rx="13" class="bar-bg"></rect>
+<rect x="390" y="312" width="75" height="26" rx="13" class="bar-fill"></rect>
+<text x="475" y="331" class="svg-value">3</text>
+<text x="10" y="378" class="svg-label">ED.d. EDUC - Educación</text>
+<rect x="390" y="360" width="475" height="26" rx="13" class="bar-bg"></rect>
+<rect x="390" y="360" width="75" height="26" rx="13" class="bar-fill"></rect>
+<text x="475" y="379" class="svg-value">3</text></svg></div><div><table><thead><tr><th>Programa académico</th><th>Cursos</th><th>Participación</th></tr></thead><tbody><tr><td>DMA Educación Musical</td><td class="num">19</td><td class="num">26.4%</td></tr>
+<tr><td>DBA ENTR - Emprendimiento</td><td class="num">11</td><td class="num">15.3%</td></tr>
+<tr><td>Especialidad en Educación Física (MA) Entrenamiento y Desempeño Deportivo</td><td class="num">9</td><td class="num">12.5%</td></tr>
+<tr><td>Inglés: Enseñanza del Inglés como Segundo Idioma (MA)</td><td class="num">8</td><td class="num">11.1%</td></tr>
+<tr><td>PsyD en Psicología Clínica y Consejería Psicológica/Escolar</td><td class="num">6</td><td class="num">8.3%</td></tr>
+<tr><td>MA Psicología</td><td class="num">5</td><td class="num">6.9%</td></tr>
+<tr><td>MA Psicología Especialidad en Consejería Psicológica</td><td class="num">3</td><td class="num">4.2%</td></tr>
+<tr><td>ED.d. EDUC - Educación</td><td class="num">3</td><td class="num">4.2%</td></tr>
+<tr><td>ED.d. EDUC - Educación_Especialidad en Gerencia y Liderazgo Educativos</td><td class="num">2</td><td class="num">2.8%</td></tr>
+<tr><td>Ciencias Ambientales (MS)</td><td class="num">2</td><td class="num">2.8%</td></tr>
+<tr><td>Matemáticas Aplicadas (MA)</td><td class="num">1</td><td class="num">1.4%</td></tr>
+<tr><td>PsyD en Psicología Clínica y Psicología Escolar</td><td class="num">1</td><td class="num">1.4%</td></tr>
+<tr><td>PsyD en Psicología Clínica y Consejería Psicológica</td><td class="num">1</td><td class="num">1.4%</td></tr>
+<tr><td>MA Psicología Especialidad en Psicología Escolar</td><td class="num">1</td><td class="num">1.4%</td></tr></tbody></table></div></div></section>
+
+<section class="section"><h2>Estado operacional de Year 3</h2><p class="lead">La mayoría de los cursos todavía figura como planificada o sin estatus explícito. Dieciséis propuestas están por someterse a CITEL, cuatro ya fueron sometidas y cuatro cursos registran ausencia de recurso.</p><div class="two-col"><div><svg class="chart" viewBox="0 0 900 322" role="img" aria-label="Estado de cursos"><text x="10" y="42" class="svg-label">Propuesta recibida</text>
+<rect x="315" y="24" width="550" height="26" rx="13" class="bar-bg"></rect>
+<rect x="315" y="24" width="11" height="26" rx="13" class="bar-fill"></rect>
+<text x="336" y="43" class="svg-value">1</text>
+<text x="10" y="90" class="svg-label">Certificados / documentación</text>
+<rect x="315" y="72" width="550" height="26" rx="13" class="bar-bg"></rect>
+<rect x="315" y="72" width="11" height="26" rx="13" class="bar-fill"></rect>
+<text x="336" y="91" class="svg-value">1</text>
+<text x="10" y="138" class="svg-label">Por someter a CITEL</text>
+<rect x="315" y="120" width="550" height="26" rx="13" class="bar-bg"></rect>
+<rect x="315" y="120" width="191" height="26" rx="13" class="bar-fill"></rect>
+<text x="516" y="139" class="svg-value">16</text>
+<text x="10" y="186" class="svg-label">Sometidos a CITEL</text>
+<rect x="315" y="168" width="550" height="26" rx="13" class="bar-bg"></rect>
+<rect x="315" y="168" width="47" height="26" rx="13" class="bar-fill"></rect>
+<text x="372" y="187" class="svg-value">4</text>
+<text x="10" y="234" class="svg-label">Planificados / sin estatus</text>
+<rect x="315" y="216" width="550" height="26" rx="13" class="bar-bg"></rect>
+<rect x="315" y="216" width="550" height="26" rx="13" class="bar-fill"></rect>
+<text x="840" y="235" class="svg-value">46</text>
+<text x="10" y="282" class="svg-label">Sin recurso asignado</text>
+<rect x="315" y="264" width="550" height="26" rx="13" class="bar-bg"></rect>
+<rect x="315" y="264" width="47" height="26" rx="13" class="bar-fill"></rect>
+<text x="372" y="283" class="svg-value">4</text></svg></div><div><table><thead><tr><th>Clasificación operacional</th><th>Cursos</th><th>Porcentaje</th></tr></thead><tbody><tr><td>Propuesta recibida</td><td class="num">1</td><td class="num">1.4%</td></tr>
+<tr><td>Certificados / documentación</td><td class="num">1</td><td class="num">1.4%</td></tr>
+<tr><td>Por someter a CITEL</td><td class="num">16</td><td class="num">22.2%</td></tr>
+<tr><td>Sometidos a CITEL</td><td class="num">4</td><td class="num">5.6%</td></tr>
+<tr><td>Planificados / sin estatus</td><td class="num">46</td><td class="num">63.9%</td></tr>
+<tr><td>Sin recurso asignado</td><td class="num">4</td><td class="num">5.6%</td></tr></tbody></table></div></div><div class="note"><strong>Criterio del dashboard:</strong> la clasificación se deriva literalmente del texto de la columna “Estatus”. Los registros sin texto en esa columna se presentan como “Planificados / sin estatus”; esto no significa que estén detenidos ni completados.</div></section>
+
+<section class="section"><h2>Indicadores financieros y administrativos</h2><p class="lead">Los valores siguientes se mantienen separados porque el archivo utiliza conceptos distintos: pagado, cartera/compromiso, balance y no comprometido.</p><div class="donut-row">
+<div class="donut-card"><svg viewBox="0 0 120 120" class="donut"><circle cx="60" cy="60" r="46" class="donut-bg"></circle><circle cx="60" cy="60" r="46" class="donut-fill" stroke-dasharray="17.90 271.13"></circle><text x="60" y="64" text-anchor="middle" class="donut-text">6.2%</text></svg><div class="donut-label">Pagado frente a la cartera Year 3</div></div>
+<div class="donut-card"><svg viewBox="0 0 120 120" class="donut"><circle cx="60" cy="60" r="46" class="donut-bg"></circle><circle cx="60" cy="60" r="46" class="donut-fill" stroke-dasharray="72.26 216.77"></circle><text x="60" y="64" text-anchor="middle" class="donut-text">25%</text></svg><div class="donut-label">Registros con señal administrativa en columna de formulario</div></div>
+<div class="donut-card"><div class="kpi-value" style="font-size:28px;margin:28px 0 18px">$81,564</div><div class="donut-label">Balance indicado en Year 3</div></div>
+<div class="donut-card"><div class="kpi-value" style="font-size:28px;margin:28px 0 18px">$19,812</div><div class="donut-label">Monto identificado como no comprometido</div></div>
+</div>
+<table style="margin-top:18px"><thead><tr><th>Periodo / concepto</th><th>Cursos o registros</th><th>Monto</th><th>Interpretación en el archivo</th></tr></thead><tbody>
+<tr><td>Year 1</td><td class="num">2</td><td class="num">$3,048</td><td>Dos cursos certificados; el pago se refleja posteriormente en Year 2.</td></tr>
+<tr><td>Year 2 — certificados/pagados</td><td class="num">18</td><td class="num">$27,432</td><td>Registros principales con certificación y pago documentado.</td></tr>
+<tr><td>Year 2 — otros cursos</td><td class="num">2</td><td class="num">$3,048</td><td>Propuestas nuevas recibidas, separadas del bloque de cursos pagados.</td></tr>
+<tr><td>Year 3 — pagado/certificado</td><td class="num">4</td><td class="num">$6,096</td><td>Total de gastos informado hasta agosto de 2026.</td></tr>
+<tr><td>Year 3 — cartera activa</td><td class="num">72</td><td class="num">$98,453</td><td>Suma de los cursos listados en “Cursos aprobados y en desarrollo”.</td></tr>
+</tbody></table></section>
+
+<section class="section"><h2>Brechas curriculares identificadas</h2><p class="lead">La hoja “Faltan Year 3” documenta 12 programas o especialidades con cursos faltantes, requisitos operacionales o decisiones pendientes. El resumen siguiente conserva el planteamiento del archivo.</p><table><thead><tr><th>Programa / especialidad</th><th>Cursos ya identificados</th><th>Brecha principal</th></tr></thead><tbody><tr><td>Especialidad en Educación Física (MA) – Entrenamiento y Desempeño Deportivo</td><td>HPER 5300, HPER 6100, HPER 6110 aparecen o fueron macheados en Year 3.</td><td>Falta HPER 6030, porque la subespecialidad lista formalmente HPER 5300, HPER 6030, HPER 6100 y HPER 6110.</td></tr><tr><td>DBA en Emprendimiento</td><td>ENTR 7000, 7010, 7020, 797A, 797B, 797C, 8110, 8120, 8130 y 8990 aparecen en Year 3.</td><td>Faltan los cursos operacionales ENTR 8910, ENTR 8950, ENTR 8991, ENTR 8992 y ENTR 8993.</td></tr><tr><td>Inglés: Enseñanza del Inglés como Segundo Idioma (MA-TESOL)</td><td>ENGL 5220, 6170, 6530, 5210, 5330, 6180, 6600 y 6970 aparecen en Year 3.</td><td>Faltan cursos de especialidad requeridos: ENGL 5040, ENGL 5050, ENGL 5240, ENGL 6090, ENGL 6100 y ENGL 6113.</td></tr><tr><td>DMA en Educación Musical</td><td>MUED 7015, 7101, 7102, 7210, 7321, 7322, 7430, 7440, 7540, 7650, 8020, 8960; MUSI 7010, 7012, 7025, 7026, 7030, 7500 y 8700 aparecen en Year 3.</td><td>Faltan los cursos operacionales MUED 8991 y MUED 8992.</td></tr><tr><td>Doctorado en Educación (Ed.D.)</td><td>EDUC 7050, 7060 y 7070 aparecen en Year 3. También aparecen EDUC 8500 y 8530 para Gerencia y Liderazgo Educativos.</td><td>Para el componente general del Ed.D., faltan cursos de fundamentos a seleccionar, cursos operacionales EDUC 8960, EDUC 8991 y EDUC 8992, además de electivos doctorales según la especialidad.</td></tr><tr><td>Matemáticas Aplicadas (MA)</td><td>MATH 5400 aparece en Year 3.</td><td>Faltan cursos medulares: MATH 5100, MATH 5200, MATH 5500, MATH 5800 y MATH 6400.</td></tr><tr><td>Ciencias Ambientales (MS)</td><td>EVSC 5285 y EVSC 5275 aparecen en Year 3.</td><td>Faltan cursos medulares como EVSC 5000, EVSC 5030, EVSC 5165, EVSC 6101, EVSC 6102 y EVSC 699A.</td></tr><tr><td>MA en Psicología – base común</td><td>PSYC 5015, 5050, 5060 y 5220 aparecen en Year 3.</td><td>Faltan cursos medulares como PSYC 5030, PSYC 5033, PSYC 5040, PSYC 5100, PSYC 5150, PSYC 5170 y PSYC 5200.</td></tr><tr><td>MA Psicología – Consejería Psicológica</td><td>PSYC 5286, 5287, 6933 y SEMI 6970 aparecen en Year 3.</td><td>Faltan varios cursos de especialidad, incluyendo PSYC 6090, 6255, 6265, 6275, 6276, 6280, 6281, 6290, 6291, 6914, 6915, 6934, 6935 y 6936.</td></tr><tr><td>MA Psicología – Psicología Escolar</td><td>PSYC 5296 y 5297 aparecen en Year 3.</td><td>Faltan cursos como PSYC 6090, 6255, 6265, 6216, 6428, 6285, 6286, 6290, 6291, 6914, 6915, 6933, 6944, 6945, 6946 y SEMI 6970, si no se reutiliza el mismo desarrollo del seminario integrador.</td></tr><tr><td>PsyD en Psicología Clínica y Consejería Psicológica</td><td>PSYC 7010, 7015, 7020, 7030, 7040, 7045, 7050 y 8912 aparecen en Year 3.</td><td>Falta PSYC 7060 en el componente medular.</td></tr><tr><td>PsyD en Psicología Clínica y Psicología Escolar</td><td>PSYC 7005, 7010, 7020, 7030, 7040, 7045, 7050 y 8912 aparecen en Year 3.</td><td>Falta PSYC 7060 en el componente medular.</td></tr></tbody></table></section>
+
+<section class="section"><h2>Lectura ejecutiva</h2><p class="lead">El archivo evidencia una cartera amplia para Year 3, pero requiere fortalecer la trazabilidad operacional para distinguir con precisión entre planificación, propuesta, aprobación, certificación, compromiso y pago.</p><div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px"><div class="note"><strong>Prioridad 1:</strong> completar el campo de estatus de los 46 cursos que actualmente no presentan una etapa operacional explícita.</div><div class="note"><strong>Prioridad 2:</strong> tramitar las 16 propuestas indicadas como pendientes de someter a CITEL y dar seguimiento a las cuatro ya sometidas.</div><div class="note"><strong>Prioridad 3:</strong> asignar recursos a los cuatro cursos marcados como requisitos de especialidad sin recurso y resolver las brechas de los 12 programas.</div></div></section>
+</main><footer>Fuente: “6013 Reporte Desarrollo de Cursos en Línea marzo 2026 (7).xlsx”. Dashboard generado a partir de las hojas Year 1, Year 2, Year 3 y Faltan Year 3. No se añadieron datos externos.</footer></body></html>
