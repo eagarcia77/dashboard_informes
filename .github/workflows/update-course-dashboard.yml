@@ -2,9 +2,8 @@ name: Actualizar Dashboard de Cursos
 on:
   push:
     paths:
+      - "Informe_Desarrollo_Cursos/*.xlsx"
       - "Informe_Desarrollo_Cursos/**/*.xlsx"
-      - "Informe_Desarrollo_Cursos/generate_dashboard.py"
-      - ".github/workflows/update-course-dashboard.yml"
   workflow_dispatch:
 permissions:
   contents: write
